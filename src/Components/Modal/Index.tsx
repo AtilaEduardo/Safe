@@ -2,8 +2,6 @@ import { View,Text,StyleSheet,TouchableOpacity,Pressable } from "react-native";
 import * as Clipboard from 'expo-clipboard'
 import useStorage from '../../hooks/useStorage'
 
-
-
 export function ModalSenha({password, handleClose}){
    const{saveItem}=useStorage();
   
@@ -90,6 +88,11 @@ const styles =  StyleSheet.create({
         borderRadius:8,
     },
     buttonSaveText:{
+        color:"#000000",
+        fontWeight:"bold",
+    },
+
+    buttonText: {
         color:"#000000",
         fontWeight:"bold",
     },
