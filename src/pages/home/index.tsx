@@ -3,21 +3,32 @@ import { Image, View, Text, TouchableOpacity, Modal, StyleSheet, Switch } from '
 import Slider from '@react-native-community/slider';
 import { ModalSenha } from '../../Components/Modal/Index';
 
+interface State {
+  size: number;
+  senhaValue: string;
+  modalVisivel: boolean;
+  incluiNumeros: boolean;
+  incluiSimbolos: boolean;
+  incluiMaiusculas: boolean;
+}
+
 let caracteres_min = "abcdefghijklmnopqrstuvwxyz";
 let caracteres_mai = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let caracteres_numeros = "0123456789";
 let caracteres_simbolos = "$%&*#@";
 
-
 export function Home() {
-  const [size, setSize] = useState(10);
-  const [senhaValue, setsenhaValue] = useState("");
-  const [modalVisivel, setModalVisivel] = useState(false);
-  const [incluiNumeros, setIncluiNumeros] = useState(false);
-  const [incluiSimbolos, setIncluiSimbolos] = useState(false);
-  const [incluiMaiusculas, setIncluiMaiusculas] = useState(false);
+  const [state, setState] = useState<State>({
+    size: 10,
+    senhaValue: "",
+    modalVisivel: false,
+    incluiNumeros: false,
+    incluiSimbolos: false,
+    incluiMaiusculas: false
+  });
 
   function gerarSenha() {
+    const { size, incluiMaiusculas, incluiNumeros, incluiSimbolos } = state;
     let caracteres = incluiMaiusculas ? caracteres_mai : caracteres_min;
     if (incluiNumeros) caracteres += caracteres_numeros;
     if (incluiSimbolos) caracteres += caracteres_simbolos;
@@ -26,9 +37,11 @@ export function Home() {
     for (let i = 0, n = caracteres.length; i < size; i++) {
       senha += caracteres.charAt(Math.floor(Math.random() * n));
     }
-    console.log(senha);
-    setsenhaValue(senha);
-    setModalVisivel(true);
+    setState(prevState => ({ ...prevState, senhaValue: senha, modalVisivel: true }));
+  }
+
+  function handleSwitchChange(switchName: keyof State) {
+    setState(prevState => ({ ...prevState, [switchName]: !prevState[switchName] }));
   }
 
   return (
@@ -36,33 +49,33 @@ export function Home() {
       <Image
         source={require('../../../src/imagens/cadeado-rosa.png')}
       />
-      <Text style={styles.title}>{size} Caracteres</Text>
+      <Text style={styles.title}>{state.size.toFixed(0)} Caracteres</Text>
       <View style={styles.area}>
         <Slider
           style={{ height: 50 }}
           minimumValue={8}
           maximumValue={20}
-          value={size}
-          onValueChange={(value) => setSize(value.toFixed(0))}
+          value={state.size}
+          onValueChange={(value) => setState(prevState => ({ ...prevState, size: value }))}
         />
       </View>
       <View style={styles.opcoes}>
         <Text>Incluir Números  </Text>
-        <Switch value={incluiNumeros} onValueChange={() => setIncluiNumeros(!incluiNumeros)} />
+        <Switch value={state.incluiNumeros} onValueChange={() => handleSwitchChange('incluiNumeros')} />
       </View>
       <View style={styles.opcoes}>
         <Text>Incluir Símbolos  </Text>
-        <Switch value={incluiSimbolos} onValueChange={() => setIncluiSimbolos(!incluiSimbolos)} />
+        <Switch value={state.incluiSimbolos} onValueChange={() => handleSwitchChange('incluiSimbolos')} />
       </View>
       <View style={styles.opcoes}>
         <Text>Incluir letras Maiúsculas  </Text>
-        <Switch value={incluiMaiusculas} onValueChange={() => setIncluiMaiusculas(!incluiMaiusculas)} />
+        <Switch value={state.incluiMaiusculas} onValueChange={() => handleSwitchChange('incluiMaiusculas')} />
       </View>
       <TouchableOpacity style={styles.button} onPress={gerarSenha}>
         <Text style={styles.buttonText}>Gerar Senha</Text>
       </TouchableOpacity>
-      <Modal visible={modalVisivel} animationType="fade" transparent={true}>
-        <ModalSenha password={senhaValue} handleClose={() => setModalVisivel(false)} />
+      <Modal visible={state.modalVisivel} animationType="fade" transparent={true}>
+        <ModalSenha password={state.senhaValue} handleClose={() => setState(prevState => ({ ...prevState, modalVisivel: false }))} />
       </Modal>
     </View>
   );
@@ -92,10 +105,6 @@ const styles = StyleSheet.create({
     marginTop: 14,
     marginBottom: -10,
     width: "80%",
-   
-    
-    
-    
   },
   button: {
     backgroundColor: "#40e0d0",
