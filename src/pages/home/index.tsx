@@ -47,7 +47,7 @@ export function Home() {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../src/imagens/cadeado-rosa.png')}
+        source={require('../../../assets/cadeado-rosa.png')}
       />
       <Text style={styles.title}>{state.size.toFixed(0)} Caracteres</Text>
       <View style={styles.area}>

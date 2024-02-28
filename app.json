@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "safe",
+    "name": "Safe",
     "slug": "safe",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/cadeado-rosa.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -15,21 +15,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.thaisps.safe"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/cadeado-rosa.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/cadeado-rosa.png"
     },
     "extra": {
       "eas": {
-        "projectId": "5b9e2233-2979-48f0-ac96-4c706336e1c7"
+        "projectId": "b4312e5e-5a11-46d4-8268-4dd37f5cd7d9"
       }
-    }
+    },
+    "owner": "atilacsc"
   }
 }
